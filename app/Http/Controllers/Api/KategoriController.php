@@ -66,7 +66,29 @@ class KategoriController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $kategoris = Kategori::findOrFail($id);
+
+        $validator = Validator::make($request->all(), [
+            'kategori' => 'required|string',
+        ]);
+
+        if($validator->fails()) {
+            return response()->json([
+                'status' =>false,
+                'message' => 'validasi error',
+                'errors' =>$validator->errors()
+            ], 422);
+        }
+
+        $kategoris->update([
+            'kategori' => $request->kategori,
+        ]);
+        return response()->json([
+            'status' => true,
+            'messege' => 'data terupdate',
+            'data' => $kategoris,
+        ], 200);
+
     }
 
     /**
@@ -74,6 +96,11 @@ class KategoriController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $kategoris = Kategori::findOrFail($id);
+        $kategoris->delete($id);
+         return response()->json([
+            'status' => true,
+            'messege' => 'data terhapus',
+        ], 204);
     }
 }

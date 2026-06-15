@@ -78,7 +78,6 @@ class akunController extends Controller
     {
             $akuns = akun::findOrFail($id);
 
-            // 2. Tambahkan pengabaian ID di rule unique
             $validator = Validator::make($request->all(), [
                 'name'     => 'required|sometimes|string|max:255',
                 'email'    => 'required|sometimes|email|unique:akuns,email,', // <-- WAJIB ADA INI
